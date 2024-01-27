@@ -2,11 +2,11 @@ from .models import Product
 from django.core.paginator import Paginator
 from django.shortcuts import get_object_or_404, redirect, render
 
-VISIBLE_POSTS = 10
+VISIBLE_PAGES = 10
 
 
 def _get_page_obj(_posts, request):
-    paginator = Paginator(_posts, VISIBLE_POSTS)
+    paginator = Paginator(_posts, VISIBLE_PAGES)
     page_number = request.GET.get('page')
     return paginator.get_page(page_number)
 
