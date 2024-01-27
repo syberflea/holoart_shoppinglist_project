@@ -17,12 +17,6 @@ def index(request):
     return render(request, 'shop/index.html', {'products': products})
 
 
-def product_list(request):
-    products = Product.objects.all()
-    # здесь можно добавить фильтрацию и сортировку по запросам пользователя
-    return render(request, 'product_list.html', {'products': products})
-
-
 def add_product(request):
     if request.method == 'POST':
         # обработка данных, введенных пользователем для добавления нового продукта
