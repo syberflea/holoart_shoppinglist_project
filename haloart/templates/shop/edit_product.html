@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block title%}Редактировать продукт{% endblock title %}
+{% block content %}
+<h1>Редактировать продукт</h1>
+<form method="post">
+    {% csrf_token %}
+    <label for="name">Название продукта:</label>
+    <input type="text" id="name" name="name" value="{{ product.name }}"><br>
+    <label for="quantity">Количество:</label>
+    <input type="number" id="quantity" name="quantity" value="{{ product.quantity }}"><br>
+    <label for="price">Цена:</label>
+    <input type="number" id="price" name="price" value="{{ product.price }}"><br>
+    <input type="submit" value="Сохранить">
+</form>
+{% endblock %}

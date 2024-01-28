@@ -23,13 +23,13 @@ class Product(models.Model):
 
 class ShopingCart(models.Model):
     '''Список покупок'''
+    name = models.CharField(max_length=50)
     product = models.ForeignKey(
         Product,
         related_name="shopingcarts",
         on_delete=models.CASCADE,
         verbose_name='список'
     )
-    added_at = models.DateTimeField(auto_now_add=True)
     quantity = models.PositiveIntegerField(
         'Вес (в граммах)',
         default=0,
@@ -38,3 +38,6 @@ class ShopingCart(models.Model):
     class Meta:
         verbose_name = 'Список'
         verbose_name_plural = 'Списки'
+
+    def __str__(self):
+        return self.name
