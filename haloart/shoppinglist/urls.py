@@ -31,7 +31,7 @@ urlpatterns = [
         name='view_cart'
     ),
     path(
-        'product_list',
+        'product_list/',
         views.product_list,
         name='product_list'
     ),
@@ -43,6 +43,11 @@ urlpatterns = [
     path(
         'search/',
         views.SearchResultsList.as_view(),
-        name="search_results"
+        name='search_results'
     ),
+    path(
+        'products/',
+        views.ProductListView.as_view(),
+        name='products'
+    )
 ]

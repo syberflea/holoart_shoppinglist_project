@@ -2,7 +2,9 @@ from django.core.paginator import Paginator
 from django.db.models import Q
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views.generic.list import ListView
+from django_filters.views import FilterView
 
+from .filters import ProductFilter, ShopingCartFilter
 from .forms import ProductForm
 from .models import Product, ShopingCart
 
@@ -16,9 +18,11 @@ def _get_page_obj(_posts, request):
 
 
 def product_list(request):
-    products = Product.objects.select_related()
-    # добавить фильтрацию и сортировку по запросам пользователя
-    return render(request, 'shop/product_list.html', {'products': products})
+    products = Product.objects.all()
+    context = {
+        'products': products,
+    }
+    return render(request, 'shop/product_list.html', context)
 
 
 def add_product(request):
@@ -72,7 +76,13 @@ def delete_product(request, product_id):
 def view_cart(request):
     items = ShopingCart.objects.all()
     total_price = sum(item.product.price * item.quantity for item in items)
-    context = {'cart_items': items, 'total_price': total_price}
+    my_filter = ShopingCartFilter(request.GET, queryset=items)
+    products = my_filter.qs
+    context = {
+        'products': products,
+        'filter': my_filter,
+        'total_price': total_price,
+    }
     return render(
         request,
         'shop/index.html',
@@ -106,3 +116,9 @@ class SearchResultsList(ListView):
         return Product.objects.filter(
             Q(name__icontains=query)
         )
+
+
+class ProductListView(FilterView):
+    model = Product
+    template_name = 'shop/filter.html'
+    filterset_class = ProductFilter

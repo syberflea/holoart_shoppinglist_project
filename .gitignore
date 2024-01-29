@@ -160,3 +160,5 @@ cython_debug/
 #.idea/
 setup.cfg
 mypy.ini
+.vscode/settings.json
+media/

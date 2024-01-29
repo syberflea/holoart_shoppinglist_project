@@ -2,24 +2,46 @@
 {% block title%}Ваша корзина{% endblock title %}
 {% block content %}
 <form action="{% url 'shop:search_results' %}" method="get">
-	<input
-	  type="search"
-	  name="q"
-	  placeholder="Поиск по имени..."
-	  class="form-control"
-	/>
-  </form>
-<div class="container py-5">
-	{% for item in cart_items %}
-	<div>
-		<p>{{ item.product.name }} ({{ item.quantity }})</p>
-		<p>Цена: {{ item.product.price }}₽</p>
-		<a href="{% url 'shop:remove_from_cart' item.id %}">Удалить</a>
+	<input type="search" name="q" placeholder="Поиск по имени..." class="form-control" />
+</form>
+
+<div class="row">
+	<div class="col">
+		<div class="card card-body ml-3 mr-3">
+			<form method="GET" action="" class="form-inline">
+				{% csrf_token %}
+				<div>
+				{{ filter.form }}
+					<button type="submit" class="btn btn- 
+                        secondary">Фильтр</button>
+				</div>
+			</form>
+		</div>
 	</div>
-	{% empty %}
-	<p>Ваша корзина пуста</p>
-	{% endfor %}
-	</div>
-	<p>Итого: {{ total_price }}₽</p>
-	<a href="{% url 'shop:product_list' %}">Продолжить</a>
+</div>
+<div class="card card-body ml-3 mr-3">
+	<table class="table table-sm">
+		<tr>
+			<th>#</th>
+			<th>Продукт</th>
+			<th>Цена</th>
+			<th>Количество</th>
+			<th>Удалить</th>
+		</tr>
+		{% for item in filter.qs %}
+		<tr>
+			<th scope="row">{{ forloop.counter }}</th>
+			<td>{{ item.product.name }}</td>
+			<td>{{ item.product.price }}</td>
+			<td>{{ item.quantity }}</td>
+			<td><a href="{% url 'shop:remove_from_cart' item.id %}">Удалить</a></td>
+		</tr>
+		{% empty %}
+		<p>Ваша корзина пуста</p>
+		{% endfor %}
+	</table>
+</div>
+
+<p>Итого: {{ total_price }}₽</p>
+<a href="{% url 'shop:product_list' %}">Продолжить</a>
 {% endblock %}
