@@ -1,6 +1,14 @@
 {% extends "base.html" %}
 {% block title%}Ваша корзина{% endblock title %}
 {% block content %}
+<form action="{% url 'shop:search_results' %}" method="get">
+	<input
+	  type="search"
+	  name="q"
+	  placeholder="Поиск по имени..."
+	  class="form-control"
+	/>
+  </form>
 <div class="container py-5">
 	{% for item in cart_items %}
 	<div>

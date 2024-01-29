@@ -40,4 +40,9 @@ urlpatterns = [
         views.add_product,
         name='add_product'
     ),
+    path(
+        'search/',
+        views.SearchResultsList.as_view(),
+        name="search_results"
+    ),
 ]

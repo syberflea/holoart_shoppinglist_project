@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block title%}Результаты поиска{% endblock title %}
+{% block content %}
+<div class="container py-5">
+    <br><br>
+
+    <h2>Результаты поиска</h2>
+
+    <br><br>
+
+    {% for quote in quotes %}
+    <ul>
+        <li>{{ quote.name }} - <b> <i>{{ quote.description | safe }}</i></b></li>
+    </ul>
+    {% empty %}
+    <p>Ничего не найдено.</p>
+    {% endfor %}
+
+    <br><br>
+
+    <a href="{% url 'shop:product_list' %}" class="btn btn-primary">Все Продукты</a>
+
+    <br><br>
+</div>
+{% endblock %}
