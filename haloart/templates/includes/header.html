@@ -1,24 +1,24 @@
 {% load static %}
 <nav class="navbar navbar-light" style="background-color: lightskyblue">
-    <div class="container">
-      <a class="navbar-brand" href="{% url 'shoppinglist:index' %}">
-        <img src="{% static 'img/logo.png' %}" width="30" height="30" class="d-inline-block align-top" alt="">
-        <span style="color:red">Holo</span>shop
-      </a>
-      {% with request.resolver_match.view_name as view_name %}
-      <ul class="nav nav-pills">
-        <li class="nav-item"> 
-          <a class="nav-link 
+  <div class="container">
+    <a class="navbar-brand" href="{% url 'shop:view_cart' %}">
+      <img src="{% static 'img/logo.png' %}" width="30" height="30" class="d-inline-block align-top" alt="">
+      <span style="color:red">М</span>агазин
+    </a>
+    {% with request.resolver_match.view_name as view_name %}
+    <ul class="nav nav-pills">
+      <li class="nav-item">
+        <a class="nav-link 
           {% if view_name  == 'about:author' %}
           active
           {% endif %}" href="{% url 'about:author' %}">Об авторе</a>
-        </li>
-        <li class="nav-item"> 
-          <a class="nav-link {% if view_name  == 'shop:add_product' %}
+      </li>
+      <li class="nav-item">
+        <a class="nav-link {% if view_name  == 'shop:product_list' %}
           active
-          {% endif %}" href="{% url 'shop:add_product'%}">Новая запись</a>
-        </li>
-      </ul>
-      {% endwith %} 
-    </div>
-  </nav>
+          {% endif %}" href="{% url 'shop:product_list'%}">Продукты</a>
+      </li>
+    </ul>
+    {% endwith %}
+  </div>
+</nav>

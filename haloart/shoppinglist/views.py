@@ -12,21 +12,29 @@ def _get_page_obj(_posts, request):
     return paginator.get_page(page_number)
 
 
-def index(request):
+def product_list(request):
     products = Product.objects.select_related()
     # добавить фильтрацию и сортировку по запросам пользователя
-    return render(request, 'shop/index.html', {'products': products})
+    return render(request, 'shop/product_list.html', {'products': products})
 
 
-def add_product(request, product_id):
+def add_product(request):
     '''Обработка данных, введенных пользователем для добавления нового продукта
     сохранение продукта в базу данных.
     '''
-    product = Product.objects.get(id=product_id)
-    cart_item, created = ShopingCart.objects.get_or_create(product=product)
-    cart_item.quantity += 1
-    cart_item.save()
-    return redirect('shop:view_cart')
+    form = ProductForm(
+        request.POST or None,
+        files=request.FILES or None)
+    if form.is_valid():
+        item = form.save(commit=False)
+        item.save()
+        print(item)
+        return redirect('shop:product_list')
+    context = {
+        'form': form,
+        'is_edit': False
+    }
+    return render(request, 'shop/create_product.html', context)
 
 
 def edit_product(request, product_id):
@@ -48,14 +56,14 @@ def edit_product(request, product_id):
         'form': form,
         'is_edit': True
     }
-    return render(request, 'shop/edit_product.html', context)
+    return render(request, 'shop/create_product.html', context)
 
 
 def delete_product(request, product_id):
     '''Обработка удаления продукта по его идентификатору.'''
-    item = ShopingCart.objects.get(id=product_id)
+    item = get_object_or_404(Product, pk=product_id)
     item.delete()
-    return redirect('product_list')
+    return redirect('shop:product_list')
 
 
 def view_cart(request):
@@ -67,3 +75,19 @@ def view_cart(request):
         'shop/index.html',
         context
     )
+
+
+def add_to_cart(reuest, product_id):
+    '''Добавление выбранного продукта в корзину.'''
+    product = Product.objects.get(id=product_id)
+    cart_item, created = ShopingCart.objects.get_or_create(product=product)
+    cart_item.quantity += 1
+    cart_item.save()
+    return redirect('shop:view_cart')
+
+
+def remove_from_cart(request, product_id):
+    '''Удаление выбранного продукта из корзины.'''
+    item = ShopingCart.objects.get(id=product_id)
+    item.delete()
+    return redirect('shop:view_cart')

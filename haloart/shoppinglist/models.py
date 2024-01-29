@@ -3,14 +3,14 @@ from django.db import models
 
 class Product(models.Model):
     '''Продукт'''
-    name = models.CharField(max_length=100)
-    description = models.TextField(null=True)
+    name = models.CharField('Наименование', max_length=100)
+    description = models.TextField('Описание', null=True)
     image = models.ImageField(
         'Картинка',
         upload_to='media/',
         blank=True
     )
-    price = models.DecimalField(max_digits=10, decimal_places=2)
+    price = models.DecimalField('Цена', max_digits=10, decimal_places=2)
 
     class Meta:
         ordering = ('name',)
@@ -23,7 +23,7 @@ class Product(models.Model):
 
 class ShopingCart(models.Model):
     '''Список покупок'''
-    name = models.CharField(max_length=50)
+    name = models.CharField('Владелец', max_length=50)
     product = models.ForeignKey(
         Product,
         related_name="shopingcarts",
