@@ -1,22 +1,33 @@
 {% extends 'base.html' %}
 {% block title%}Список продуктов{% endblock title %}
 {% block content %}
-<div class="container py-5">
-  <h1>Список продуктов</h1>
-  <p><a href="{% url 'shop:add_product' %}">Новый продукт</a></p>
 
-  <ul>
-    {% for product in products %}
-    <li>
-      <img src="{{ product.image.url }}" alt="{{ product.name }}" width="200" height="150">
-      <h3>{{ product.name }}</h3>
-      <p>{{ product.description }}</p>
-      <p>Цена: {{ product.price }}₽</p>
-      <a href="{% url 'shop:edit_product' product.id %}">Редактировать</a>
-      <a href="{% url 'shop:delete_product' product.id %}">Удалить</a>
-      <a href="{% url 'shop:add_to_cart' product.id %}">В корзину</a>
-    </li>
-    {% endfor %}
-  </ul>
+<div class="card card-body ml-3 mr-3">
+	<table class="table table-sm">
+		<tr>
+			<th>#</th>
+      <th>Изображение</th>
+			<th>Продукт</th>
+			<th>Цена</th>
+			<th>Описание</th>
+			<th>Редактировать</th>
+			<th>Удалить</th>
+			<th>В корзину</th>
+		</tr>
+		{% for product in products %}
+		<tr>
+			<th scope="row">{{ forloop.counter }}</th>
+      <td><img src="{{ product.image.url }}" alt="{{ product.name }}" width="200" height="150"></td>
+			<td>{{ product.name }}</td>
+			<td>{{ product.price }}</td>
+			<td>{{ product.description }}</td>
+			<td><a href="{% url 'shop:edit_product' product.id %}">Редактировать</a></td>
+			<td><a href="{% url 'shop:delete_product' product.id %}">Удалить</a></td>
+			<td><a href="{% url 'shop:add_to_cart' product.id %}">В корзину</a></td>
+		</tr>
+		{% empty %}
+		<p>Ваша корзина пуста</p>
+		{% endfor %}
+	</table>
 </div>
 {% endblock %}
