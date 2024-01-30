@@ -15,15 +15,6 @@ HALOART Тестовое задание по вакансию Python разра�
 
 ## Подготовка и запуск проекта
 
-### Запуск приложения с контейнером базы данных PostgreSQL:
-
-```
-docker compose -f infra/docker-compose.only_db.yml up -d
-python haloart/manage.py makemigrations
-python haloart/manage.py runserver
-```
-
-
 ### Запуск проекта локального сервера:
 
 ```
